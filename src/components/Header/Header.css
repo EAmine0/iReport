@@ -1,0 +1,111 @@
+.header-container {
+  width: 100%;
+  height: 4.1rem;
+  background: #003e6e;
+  position: fixed;
+  z-index: 55;
+}
+
+.header-bottom {
+  background: #ffa000;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  /* top: 60px; */
+}
+
+.header-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.header-left-content,
+.header-right-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header-title {
+  font-size: x-large;
+  color: white;
+}
+
+.icta-mapworld-image {
+  position: absolute;
+  height: 75px;
+  left: 45px;
+  top: -15px;
+  -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  z-index: -1;
+}
+
+.icta-logo-image {
+  height: 50px;
+  margin: 4px;
+}
+
+.log-out-icon {
+  color: white;
+  font-size: 30px;
+  margin-right: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@media (max-width: 640px) {
+  .log-out-icon {
+    display: none;
+  }
+}
+
+.user-infos-container {
+  margin-right: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.user-icon {
+  color: white;
+}
+
+.user-login-text {
+  color: white;
+  margin-left: 3px;
+}
+
+@media (max-width: 640px) {
+  .user-login-text {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .user-dropdown {
+    display: none;
+  }
+}
+/*# sourceMappingURL=home-header.css.map */
