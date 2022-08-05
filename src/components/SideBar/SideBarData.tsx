@@ -55,6 +55,6 @@ export const SidebarData = [
         title: "Data Management",
         cName: "sidebar-item",
         icon: <IoIcons.IoCellularSharp/>,
-        path: "/Data_Management"
+        path: "/DataManagement"
     }
 ]

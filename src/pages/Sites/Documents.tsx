@@ -1,4 +1,11 @@
 import React from 'react'
+import Ant_BarStack from '../../components/AntChart/Ant_BarStack'
+import HorizStackBar from '../../components/ChartsJs/HorizStackBar'
+import TableSet from '../../components/Table/TableSet'
+import { DataDocumentType } from '../../data/ChartData'
+import GetApi from '../../data/GetApi'
+import { HeadCellsSiteDocumentsDetails } from '../../data/TableData'
+import { Api } from '../../data/UrlApi'
 
 interface Props {}
 
@@ -11,20 +18,17 @@ function Documents(props: Props) {
 
             <div className='block' style={{width: "85%"}}>
                 <div className='title_block'>
-                    Filter
+                    Document
                 </div>
+                {/* <HorizStackBar data={DataDocumentType()} /> */}
+                <Ant_BarStack data={GetApi({url:Api.document})} />
             </div>
 
             <div className='block' style={{width: "85%"}}>
                 <div className='title_block'>
-                    Search
+                    Documents detail
                 </div>
-            </div>
-
-            <div className='block' style={{width: "85%"}}>
-                <div className='title_block'>
-                    Table
-                </div>
+                <TableSet header={HeadCellsSiteDocumentsDetails} url={Api.documentsDetails} searchBar="true" />
             </div>
 
         </div>

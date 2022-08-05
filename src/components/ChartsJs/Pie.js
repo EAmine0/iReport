@@ -1,21 +1,22 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Skeleton } from '@mui/material';
 import { Box } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Chart as ChartJS,ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle} from 'chart.js';
 import {Pie} from 'react-chartjs-2';
+import SkeletonField from '../Loading/SkeletonField';
 ChartJS.register(ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle);
 
 function Piechart(props) {
-    const tree = ['121','32']
-    const [loading, setLoading] = useState(true)
+
+    const [isloading, setIsLoading] = useState(true)
     useEffect(()=>{
         setTimeout(() => {
-            setLoading(false)
-        }, 1000)
+            setIsLoading(false)
+        }, 3750)
     }, [])
-
+    
+    let delayed;
     const options = {
 
         responsive: true,
@@ -50,7 +51,18 @@ function Piechart(props) {
             },
         },
 
-        
+        animation: {
+            onComplete: () => {
+              delayed = true;
+            },
+            delay: (context) => {
+              let delay = 0;
+              if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+              }
+              return delay;
+            },
+          },
         plugins: {
             datalabels:{
                 formatter: (val, ctx) => {
@@ -76,29 +88,53 @@ function Piechart(props) {
                 text: '',
                 align: 'start'
             },
+            
+            
         },
 
     };
 
     // console.log("hohi", props.data)
 
-    return (
+    if(props.data.labels === undefined || props.data.labels == null || props.data.labels.length == 0){
+        return (
+            <div style={{width:'100%'}}>
+                  No Data Found
+            </div>
+        ) 
+    }
+    else{
+        return (
         
-        loading ? (
-                <Box>
-                    <Skeleton />
-                    <Skeleton animation="wave" />
-                    <Skeleton animation={false} />
-                    <Skeleton />
-                    <Skeleton animation="wave" />
-                    <Skeleton animation={false} />
-                </Box>
+        isloading ? (
+                <SkeletonField />
             ) : (
-                <div style={{width:'100%', height:'100%'}}>
+                <div style={{width:'100%', height:'100%'}} className="animationProgress">
                     <Pie data={props.data} plugins={[ChartDataLabels]} options={options}/> 
                 </div> 
         )
     )
+    }
+
+    // return (
+        
+    //     isloading ? (
+    //             <SkeletonField />
+    //         ) : (
+    //             <div style={{width:'100%', height:'100%'}} className="animationProgress">
+    //                 <Pie data={props.data} plugins={[ChartDataLabels]} options={options}/> 
+    //             </div> 
+    //     )
+    // )
+
+    // return (
+        
+        
+    //             <div style={{width:'100%', height:'100%'}} className="animationProgress">
+    //                 <Pie data={props.data} plugins={[ChartDataLabels]} options={options}/> 
+    //             </div> 
+        
+    // )
 }
 
 export default Piechart

@@ -1,7 +1,10 @@
 import React from 'react'
 import TableSet from '../../components/Table/TableSet'
-import { HeadCellsSiteActivitiesMonitoring} from '../../data/TableData'
+import { HeadCellsSiteActivitiesMonitoring, HeadCellsSiteActivitiesPatients} from '../../data/TableData'
 import BtnExportExcel from '../../components/Button/BtnExportExcel'
+import { Api } from '../../data/UrlApi'
+import VerticalBar from '../../components/ChartsJs/VerticalBar'
+import { DataActivitySAE } from '../../data/ChartData'
 
 interface Props {}
 
@@ -12,24 +15,27 @@ function Activities(props: Props) {
         <>
         <div className='box_container'>
 
-            <div className='block' style={{width: "85%"}}>
+            <div className='block' style={{width: "68vw"}}>
 				<div className='title_block'>
                 Sites activity - Monitoring
 				</div>
-				<TableSet header={HeadCellsSiteActivitiesMonitoring} url='http://localhost:5000/api/Sites/sites_activities_monitoring' searchBar='true' />
+				<TableSet header={HeadCellsSiteActivitiesMonitoring} url={Api.activityMonitoring} searchBar='true' />
 				{/* <BtnExportExcel /> */}
 			</div>
 
-            <div className='block' style={{width: "85%"}}>
+            <div className='block' style={{width: "68vw"}}>
                 <div className='title_block'>
                     Sites activity - Patients
                 </div>
+                <TableSet header={HeadCellsSiteActivitiesPatients} url={Api.activityPatients} searchBar='true' />
             </div>
 
-            <div className='block' style={{width: "85%"}}>
+            <div className='block' style={{width: "40vw"}}>
                 <div className='title_block'>
                     Site activity - SAE
                 </div>
+                <VerticalBar data={DataActivitySAE()} axisTitle={true} xTitle={'Centre code'} yTitle={'Number SAE'} />
+                {/* <VerticalBar data={DataPatientStatus()}/> */}
             </div>
 
         </div>

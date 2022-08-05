@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Button from '@mui/material/Button';
 import * as IoIcons from "react-icons/io5"
-import { Skeleton } from '@mui/material';
 import { Box } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Chart as ChartJS,ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import SkeletonField from '../Loading/SkeletonField';
 ChartJS.register(ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle);
 // import { Bar, Doughnut, Line, Pie, PolarArea, Radar, Bubble, Scatter } from 'react-chartjs-2';
 
@@ -15,22 +15,111 @@ export default function VerticalBar(props) {
     useEffect(()=>{
         setTimeout(() => {
             setLoading(false)
-        }, 2000)
+        }, 3250)
     }, [])
 
+
+    // if(props.axisTitle == 'true'){
+
+    // }else{
+
+    // }
+
+    let delayed;
     const options = {
 
         responsive: true,
+        // maintainAspectRatio: false,
         hoverBorderWidth: 5,
         borderColor: 'rgba(75,192,192,1)',
         backgroundColor: 'rgba(75,192,192,0.2)',
+        scales: {
+            x: {
+                title: {
+                    display: props.axisTitle,
+                    text: props.xTitle,
+                    font: function(context) {
+                        var width = context.chart.width;
+                        var size = Math.round(width / 55);
+        
+                        return {
+                            // weight: 'bold',
+                            size: size
+                        };
+                    }
+                },
+                ticks: {
+                    font: function(context) {
+                        var width = context.chart.width;
+                        var size = Math.round(width / 55);
+        
+                        return {
+                            // weight: 'bold',
+                            size: size
+                        };
+                    }
+                }
+            },
+            y: {
+                title: {
+                    display: props.axisTitle,
+                    text: props.yTitle,
+                    font: function(context) {
+                        var width = context.chart.width;
+                        var size = Math.round(width / 55);
+        
+                        return {
+                            // weight: 'bold',
+                            size: size
+                        };
+                    }
+                },
+                ticks: {
+                    font: function(context) {
+                        var width = context.chart.width;
+                        var size = Math.round(width / 55);
+        
+                        return {
+                            // weight: 'bold',
+                            size: size
+                        };
+                    }
+                }
+            }
+        },
+        
         elements: {
             bar: {
                 borderWidth: 2,
             },
         },
-
+        animation: {
+            onComplete: () => {
+              delayed = true;
+            },
+            delay: (context) => {
+              let delay = 0;
+              if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                delay = context.dataIndex * 500 + context.datasetIndex * 150;
+              }
+              return delay;
+            },
+          },
+        
         plugins: {
+            legend: {
+                labels: {
+                    font: function(context) {
+                        var width = context.chart.width;
+                        var size = Math.round(width / 55);
+        
+                        return {
+                            // weight: 'bold',
+                            size: size
+                        };
+                    }
+                }
+            },
             datalabels:{
                 display: true,
                 color: 'black',
@@ -55,36 +144,7 @@ export default function VerticalBar(props) {
     return (
         
         loading ? (
-            <Box style={{display:'flex' ,justifyContent:'space-evenly'}}>
-                <Skeleton sx={{margin:'5px'}} width={210} height={300}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={321}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={42}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={98}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={321}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={42}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={98}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={7}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={280}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={347}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={150}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={150}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={224}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={300}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={7}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={280}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={347}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={98}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={7}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={280}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={347}/>
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={150}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={224}/>
-                <Skeleton sx={{margin:'5px'}} width={210} height={300}/>
-                
-                <Skeleton sx={{margin:'5px'}}  animation="wave" width={210} height={321}/>
-                <Skeleton sx={{margin:'5px'}}  animation={false} width={210} height={42}/>
-                
-            </Box>
+            <SkeletonField />
         ) : (
             <>
                 <div style={{position:'absolute', right:'30px', top:'0px'}}>

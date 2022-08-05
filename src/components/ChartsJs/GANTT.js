@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { Input, TextField, MenuItem, Checkbox, FormControlLabel } from '@mui/material';
 import 'chartjs-adapter-date-fns';
 import Button from '@mui/material/Button';
 import * as IoIcons from "react-icons/io5"
@@ -7,26 +8,32 @@ import { Box } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {Chart as ChartJS,ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle} from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { isPropertySignature } from 'typescript';
 ChartJS.register(ArcElement,LineElement,BarElement,PointElement,BarController,BubbleController,DoughnutController,LineController,PieController,PolarAreaController,RadarController,ScatterController,CategoryScale,LinearScale,LogarithmicScale,RadialLinearScale,TimeScale,TimeSeriesScale,Decimation,Filler,Legend,Title,Tooltip,SubTitle);
 
 // import { Bar, Doughnut, Line, Pie, PolarArea, Radar, Bubble, Scatter } from 'react-chartjs-2';
 
 
-function GANTT() {
+function GANTT(props) {
 
+    
+    let delayed;
     const options = {
         indexAxis: 'y',
         scales: {
             x: {
-                min:'2021-01-01',
+                min: props.min, //'2015-01-01',
+                max: props.max,//'2021-12-01',
                 position:'top',
                 type: 'time',
-                time:{
-                    unit: 'quarter'
-                }
+                
+                // time:{
+                //     unit: 'quarter'
+                // }
             },
             y: {
-                beginAtZero: true
+                beginAtZero: true,
+                
             },
         },
         responsive: true,
@@ -53,351 +60,96 @@ function GANTT() {
                 borderWidth: 2,
             },
         },
-
+        animation: {
+            onComplete: () => {
+              delayed = true;
+            },
+            delay: (context) => {
+              let delay = 0;
+              if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+              }
+              return delay;
+            },
+          },
         plugins: {
-            datalabels:{
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        return label+"fd";
+                    },
+                    title: function(context) {
+                        return context[0].label;
+                    }
+                }
+            },
+            title: {
                 display: false,
-                color: 'black',
+                // text: props.title,
+                position: 'left'
+            },
+            legend: {
+                display: true,
+            },
+            datalabels:{
+                formatter: (val, ctx) => {
+                    
+                    
+                    return ctx.chart.data.labels[ctx.dataIndex] + "\n" + val;
+                  },
+                display: props.labels,
+                // color: 'black',
                 anchor: 'end',
                 align: 'right',
-                offset: 3
+                offset: 3,
+                font: {
+                    size: 10,
+                }
             },
         },
     };
 
-    const data ={
-        labels : ['Belgium', 'Canada','Belgium', 'Canada','Belgium', 'Canada', 'Canada','Belgium', 'Canada'],
-        datasets: [
-            {
-                label: 'Regulatory planned',
-                data: [
-                    ['2021-01-01', '2021-04-02'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                ],
-                borderColor : 'rgba(55, 70, 73, 1)',
-                backgroundColor : 'rgba(55, 70, 73, 1)',
-            },
-            {
-                label: 'Regulatory actual',
-                data: [
-                    ['2021-01-01', '2021-04-11'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-11'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-11'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-01-01', '2021-04-11'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                ],
-                borderColor : 'rgba(55, 70, 73, 1)',
-                backgroundColor : 'rgba(55, 70, 73, 1)',
-            },
-            {
-                label: 'Start-up planned',
-                data: [
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                ],
-                borderColor : 'rgba(253, 98, 94, 1)',
-                backgroundColor : 'rgba(253, 98, 94, 1)',
-            },
-            {
-                label: 'Start-up actual',
-                data: [
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                ],
-                borderColor : 'rgba(253, 98, 94, 1)',
-                backgroundColor : 'rgba(253, 98, 94, 1)',
-            },
-            {
-                label: 'Core docs planned',
-                data: [
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                ],
-                borderColor : 'rgba(242, 200, 15, 1)',
-                backgroundColor : 'rgba(242, 200, 15, 1)',
-            },
-            {
-                label: 'Core docs actual',
-                data: [
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                ],
-                borderColor : 'rgba(242, 200, 15, 1)',
-                backgroundColor : 'rgba(242, 200, 15, 1)',
-            },
-            {
-                label: 'Sites selection planned',
-                data: [
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                ],
-                borderColor : 'rgba(101, 137, 142, 1)',
-                backgroundColor : 'rgba(101, 137, 142, 1)',
-            },
-            {
-                label: 'Sites selection actual',
-                data: [
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                ],
-                borderColor : 'rgba(101, 137, 142, 1)',
-                backgroundColor : 'rgba(101, 137, 142, 1)',
-            },
-            {
-                label: 'Initiation planned',
-                data: [
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-01'],
-                ],
-                borderColor : 'rgba(138, 212, 235, 1)',
-                backgroundColor : 'rgba(138, 212, 235, 1)',
-            },
-            {
-                label: 'Initiation actual',
-                data: [
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-04-01', '2021-07-21'],
-                ],
-                borderColor : 'rgba(138, 212, 235, 1)',
-                backgroundColor : 'rgba(138, 212, 235, 1)',
-            },
-            {
-                label: 'Recruitment planned',
-                data: [
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                ],
-                borderColor : 'rgba(254, 150, 102, 1)',
-                backgroundColor : 'rgba(254, 150, 102, 1)',
-            },
-            {
-                label: 'Recruitment actual',
-                data: [
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-07-01', '2021-08-01'],
-                ],
-                borderColor : 'rgba(254, 150, 102, 1)',
-                backgroundColor : 'rgba(254, 150, 102, 1)',
-            },
-            {
-                label: 'Monitoring planned',
-                data: [
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                ],
-                borderColor : 'rgba(166, 105, 153, 1)',
-                backgroundColor : 'rgba(166, 105, 153, 1)',
-            },
-            {
-                label: 'Monitoring actual',
-                data: [
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                    ['2021-04-01', '2021-07-01'],
-                    ['2021-09-01', '2021-10-03'],
-                ],
-                borderColor : 'rgba(166, 105, 153, 1)',
-                backgroundColor : 'rgba(166, 105, 153, 1)',
-            }
-            
-        ]
+    
+
+const tooltipLine = {
+    id: 'tooltipLine',
+    afterDraw: chart => {
+        if (chart.tooltip?._active?.length) {
+            let x = chart.tooltip._active[0].element.x;
+            let yAxis = chart.scales.y;
+            let ctx = chart.ctx;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, yAxis.top);
+            ctx.lineTo(x, yAxis.bottom);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ff0000';
+            ctx.stroke();
+            ctx.restore();
+
+            let y = chart.tooltip._active[0].element.base;
+            let yAxiss = chart.scales.y;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(y, yAxiss.top);
+            ctx.lineTo(y, yAxiss.bottom);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ff0000';
+            ctx.stroke();
+            ctx.restore();
+        }
     }
+}
 
-    // const data ={
-    //     labels : ['task 1', 'task2','task 3', 'task 4'],
-    //     datasets: [
-    //         {
-    //             label: 'planned',
-    //             data: [
-    //                 ['2021-01-01', '2021-04-01'],
-    //                 ['2021-04-01', '2021-07-01'],
-    //                 ['2021-03-01', '2021-05-31'],
-    //                 ['2021-06-01', '2021-09-30'],
-    //             ],
-    //             borderColor: ['rgba(1, 184, 170, 1)',
-    //                             'rgba(201, 27, 61, 1)',
-    //                             'rgba(253, 98, 94, 1)',
-    //                             'rgba(55, 70, 73, 1)',
-    //                             'rgba(242, 200, 15, 1)',
-    //                             'rgba(131, 196, 57, 1)',
-    //                             'rgba(48, 156, 159, 1)',
-    //                             'rgba(110, 0, 85, 1)'],
-    //             backgroundColor: ['rgba(1, 184, 170, .6)',
-    //                                 'rgba(201, 27, 61, .8)',
-    //                                 'rgba(253, 98, 94, .8)',
-    //                                 'rgba(55, 70, 73, .8)',
-    //                                 'rgba(242, 200, 15, .8)',
-    //                                 'rgba(131, 196, 57, .8)',
-    //                                 'rgba(48, 156, 159, .8)',
-    //                                 'rgba(110, 0, 85, .8)'],
-    //         },
-    //         {
-    //             label: 'actual',
-    //             data: [
-    //                 ['2021-01-01', '2021-08-25'],
-    //                 ['2021-04-01', '2021-07-15'],
-    //                 ['2021-03-01', '2021-05-31'],
-    //                 ['2021-06-01', '2021-10-30'],
-    //             ],
-    //             borderColor: ['rgba(1, 184, 170, 1)',
-    //                             'rgba(201, 27, 61, 1)',
-    //                             'rgba(253, 98, 94, 1)',
-    //                             'rgba(55, 70, 73, 1)',
-    //                             'rgba(242, 200, 15, 1)',
-    //                             'rgba(131, 196, 57, 1)',
-    //                             'rgba(48, 156, 159, 1)',
-    //                             'rgba(110, 0, 85, 1)'],
-    //             backgroundColor: ['rgba(1, 184, 170, .6)',
-    //                                 'rgba(201, 27, 61, .8)',
-    //                                 'rgba(253, 98, 94, .8)',
-    //                                 'rgba(55, 70, 73, .8)',
-    //                                 'rgba(242, 200, 15, .8)',
-    //                                 'rgba(131, 196, 57, .8)',
-    //                                 'rgba(48, 156, 159, .8)',
-    //                                 'rgba(110, 0, 85, .8)'],
-    //         }
-            
-    //     ]
-    // }
+    
 
-    //Pour height => = nb_de_label*200 en px
+
     return (
-        <div style={{width:'100%', height:'1800'+'px'}}> 
-            <Bar data={data} plugins={[ChartDataLabels]} options={options}/> 
+        <div style={{width:'100%', height:(props.data.labels.length*props.height).toString()+'px'}}>
+            <Bar data={props.data} plugins={[ChartDataLabels, tooltipLine]} options={options}/> 
         </div>
     )
 }
 
 export default GANTT
-
-
-// const [lev, setStatus] = useState([])
-//     useEffect(() => {
-//         fetch("http://localhost:5000/api/OpDashboard/site_status") // 1 -mettre l'url de l'api
-//             .then((response) => response.json())
-//             .then((json) => setStatus(json))
-
-//     },[])
-
-//     console.log("lever : ",lev)
-//     const label = []                    //
-//     const status_total = []             // 2 - ajouter le nombre de liste nécessaire
-//     const last_status_total = []       //
-
-//     lev.map((head) => {
-//         label.push(head.label)                             //
-//         status_total.push(head.status_total)                // 3 - Push vers les listes
-//         last_status_total.push(head.last_status_total)     //
-        
-//     })
-
-//     // 4 - Les afficher
-//     const data ={
-//     labels : label,
-//     datasets: [
-//         {
-//             label: 'Status total',
-//             data: status_total,
-//             borderColor: 'rgba(75,192,192,1)'
-//         },
-//         {
-//             label: 'Last status total',
-//             data: last_status_total,
-//             borderColor: '#742774'
-//         }
-        
-//     ]
-//     }

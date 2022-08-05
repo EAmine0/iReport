@@ -3,9 +3,9 @@
     justify-content: right; */
     display: flex;
     justify-content: end;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    padding: 15px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
     width: 50%;
     border: 2px solid rgb(209, 209, 209);
     border-radius: 0px;
@@ -17,12 +17,12 @@
     display: flex;
     justify-content: start;
     width: 100%;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .table{
     border: 2px solid rgb(209, 209, 209);
     border-radius: 0px;
-    margin-top: 15px;
+    margin-top: 1%;
 }

@@ -1,0 +1,60 @@
+
+const HEADER = "http://localhost:5000/api"
+
+export const Api = {
+    sites: `${HEADER}/OpDashboard/sites`,
+    patients: `${HEADER}/OpDashboard/patients`,
+    siteIdentifiedPerCountry: `${HEADER}/OpDashboard/site_identified_per_country`,
+    siteStatus: `${HEADER}/OpDashboard/site_status`,
+    patientStatus: `${HEADER}/OpDashboard/patients`,
+    curve: `${HEADER}/OpDashboard/curve`,
+    monitoring: `${HEADER}/OpDashboard/monitoring`,
+    documentConformity: `${HEADER}/OpDashboard/documents_conformity`,
+    safetyAE: `${HEADER}/OpDashboard/safety_ae`,
+    safetyAeTable: `${HEADER}/OpDashboard/safety_ae_table`,
+    DmcrfVisits: `${HEADER}/OpDashboard/visits`,
+    patientCleaned: `${HEADER}/OpDashboard/patient_cleaned`,
+    queries: `${HEADER}/OpDashboard/queries`,
+    DMCRFQueries: `${HEADER}/OpDashboard/dmcrfQueries`,
+    DMeCRFQueries: `${HEADER}/OpDashboard/dmecrfQueries`,
+    patientMandatoryConsult: `${HEADER}/OpDashboard/patient_mandatory_consultation`,
+    DmecrfVisits: `${HEADER}/OpDashboard/dmecrf_visits`,
+    DmecrfPatientMandatoryConsult: `${HEADER}/OpDashboard/dmecrf_patient_mandatory_consultation`,
+    statusSummary: `${HEADER}/OpDashboard/sites_status_summary`,
+    statusDetails: `${HEADER}/OpDashboard/sites_status_details`,
+    
+    activityMonitoring : `${HEADER}/Sites/sites_activities_monitoring`,
+    activityPatients : `${HEADER}/Sites/sites_activities_patients`,
+    activitySAE : `${HEADER}/Sites/sites_activities_sae`,
+    document: `${HEADER}/Sites/sites_documents`,
+    documentsDetails: `${HEADER}/Sites/sites_documents_details`,
+    FAType: `${HEADER}/Sites/sites_fa_type`,
+    FADetails: `${HEADER}/Sites/sites_financial_agremment_details`,
+
+    SelectionPhase: `${HEADER}/Monitoring/monitoring_selection_phase`,
+    SelectionPhaseTable: `${HEADER}/Monitoring/monitoring_selection_phase_table`,
+    initiationPhase: `${HEADER}/Monitoring/monitoring_initiation_phase`,
+    initiationPhaseTable: `${HEADER}/Monitoring/monitoring_initiation_phase_table`,
+    followUpPhase: `${HEADER}/Monitoring/monitoring_followup_phase`,
+    followUpPhaseTable: `${HEADER}/Monitoring/monitoring_followup_phase_table`,
+    closeOutPhase: `${HEADER}/Monitoring/monitoring_closeout_phase`,
+    closeOutPhaseTable: `${HEADER}/Monitoring/monitoring_closeout_phase_table`,
+    MonitoringDetails: `${HEADER}/Monitoring/monitoring_details`,
+    MonitoringDetailsTable: `${HEADER}/Monitoring/monitoring_details_table`,
+
+    participantsDocument: `${HEADER}/Monitoring/participants_documents`,
+    participantsDocumentDetails: `${HEADER}/Monitoring/participants_documents_details`,
+
+    organizationDocument: `${HEADER}/Monitoring/organization_documents`,
+    organizationDocumentDetails: `${HEADER}/Monitoring/organization_documents_details`,
+
+    patientsStatusSummary: `${HEADER}/Patients/patients_status_summary`,
+    patientsRecruitmentDetails: `${HEADER}/Patients/patient_recruitment_details`,
+    patientsRecruitmentPerSite: `${HEADER}/Patients/patient_recruitment_persite`,
+    patientsRecruitmentPerCountry: `${HEADER}/Patients/patient_recruitment_percountry`,
+    patientsDocument: `${HEADER}/Patients/patient_document`,
+    patientsDocumentDetails: `${HEADER}/Patients/patient_document_details`,
+    patientsAEPerType: `${HEADER}/Patients/patient_ae_pertype`,
+    patientsAEDetails: `${HEADER}/Patients/patient_ae_details`,
+
+}

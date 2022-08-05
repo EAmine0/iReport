@@ -1,10 +1,10 @@
 .btn_export{
     position: fixed;
-    top: 90px;
+    top: 5vw;
     right: 5vw;
-    font-size: 20px;
+    font-size: 1vw;
     color: white;
-    padding: 5px 25px;
+    padding: .3% 1.5%;
     background-color: #003E6E;
     cursor: pointer;
     z-index: 2;
@@ -82,7 +82,7 @@
     /* border: 2px solid red; */
 }
 .BtnMUId{
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
 }
 .iconICON{
     font-size: 1.3rem;

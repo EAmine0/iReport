@@ -14,7 +14,7 @@ function Status(props: Props) {
         <>
         <div className='box_container'>
 
-			<div className='block' style={{width: "500px"}}>
+			<div className='block' style={{width: "26vw"}}>
 				<div className='title_block'>
 					Site status summary
 				</div>
@@ -22,7 +22,7 @@ function Status(props: Props) {
 				{/* <BtnExportExcel /> */}
 			</div>
 
-            <div className='block' style={{width: "700px"}}>
+            <div className='block' style={{width: "38.5vw"}}>
 				<div className='title_block'>
 					Site last status
 				</div>
@@ -30,7 +30,7 @@ function Status(props: Props) {
 				{/* <BtnExportExcel /> */}
 			</div>
 
-            <div className='block' style={{width: "85%"}}>
+            <div className='block' style={{width: "67.8vw"}}>
 				<div className='title_block'>
 					Sites details
 				</div>

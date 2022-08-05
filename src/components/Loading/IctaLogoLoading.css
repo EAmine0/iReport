@@ -1,0 +1,17 @@
+.icta-loading-container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icta-loading-animation{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5%;
+    /* border: 2px solid black; */
+    padding: 50px;
+    box-shadow: 0px 5px 10px 2px gray;
+}

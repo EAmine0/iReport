@@ -8,149 +8,152 @@ import {DataSiteIdentifiedPerCountry, DataSiteStatus, DataPatientStatus, DataSaf
 import TableSet from '../../components/Table/TableSet'
 import { HeadCellsMonitoring } from '../../data/TableData'
 
-
 import './../Pages.css'
 import Gauge from '../../components/ChartsJs/Gauge'
 import Liner from '../../components/ChartsJs/Liner'
 import DoughnutChart from '../../components/ChartsJs/DoughnutChart'
 import Treemap from '../../components/ChartsJs/Treemap'
-import Pie from '../../components/ChartsJs/Pie'
 import Piechart from '../../components/ChartsJs/Pie'
 import BtnExportExcel from '../../components/Button/BtnExportExcel'
 import Ant_Treemap from '../../components/AntChart/Ant_Treemap'
-import { FetchCurveOfInclusion, FetchDocuments, FetchMonitoring, FetchPatients, FetchPatientStatus, FetchSafety, FetchSiteIdentifiedPerCountry, FetchSites, FetchSiteStatus } from '../../data/fetchData'
-import BtnToPng from '../../components/Button/BtnToPng'
-import BtnEx from '../../components/Button/BtnEx'
+import { Api } from '../../data/UrlApi'
+import  GetApi  from '../../data/GetApi'
+import Testeur from '../../data/testeur'
+
+const LazyPie = React.lazy(() => import('../../components/ChartsJs/Pie'))
 
 interface Props {
 }
 
 
-
 function ClinicalOp() {
-
-	// const api = Getter()
-	// console.log("api : ", api)
 	
 
     return (
 		<>
 		<div id='boxerss' className='box_container'>
 
-			<div className='block' style={{width: "350px"}}>
+
+			<div className='block' style={{width: "20vw"}}>
 				<div className='title_block'>
 					Sites 
 				</div>
 				<Gauge 
 					data={DataSites()}
-					potentialValue={Getter({url:"http://localhost:5000/api/OpDashboard/sites"})[0]?.total_value}
-					totalValue={Getter({url:"http://localhost:5000/api/OpDashboard/sites"})[0]?.potential_value}
-					text={'Active : '+((Getter({url:"http://localhost:5000/api/OpDashboard/sites"})[0]?.potential_value/Getter({url:"http://localhost:5000/api/OpDashboard/sites"})[0]?.total_value)*100).toFixed(2)+'%'}
+					potentialValue={GetApi({url:Api.sites})[0]?.total_value}
+					totalValue={GetApi({url:Api.sites})[0]?.potential_value}
+					text={'Active : '+((GetApi({url:Api.sites})[0]?.potential_value/GetApi({url:Api.sites})[0]?.total_value)*100).toFixed(2)+'%'}
 					type={'Initiated'}
 				/>
-				<BtnExportExcel apiData={FetchSites()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.sites})}/>
 			</div>
 
-			<div className='block' style={{width: "400px"}}>
+			<div className='block' style={{width: "22vw"}}>
 				<div className='title_block'>
 					Site identified per country
 				</div>
 				{/* <Ant_Treemap /> */}
 				<Piechart data={DataSiteIdentifiedPerCountry()}/>
-				<BtnExportExcel apiData={FetchSiteIdentifiedPerCountry()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.siteIdentifiedPerCountry})}/>
 				{/* <Treemap /> */}
 			</div>
 
-			<div className='block' style={{width: "350px"}}>
+			<div className='block' style={{width: "20vw"}}>
 				<div className='title_block'>
 					Patients 
 				</div>
 				<Gauge 
 					data={DataPatients()}
-					potentialValue={Getter({url:"http://localhost:5000/api/OpDashboard/patients"})[0]?.total_value}
-					totalValue={Getter({url:"http://localhost:5000/api/OpDashboard/patients"})[0]?.potential_value}
-					text={'To target : '+((Getter({url:"http://localhost:5000/api/OpDashboard/patients"})[0]?.potential_value/Getter({url:"http://localhost:5000/api/OpDashboard/patients"})[0]?.total_value)*100).toFixed(2)+'%'}
+					potentialValue={GetApi({url:Api.patients})[0]?.total_value}
+					totalValue={GetApi({url:Api.patients})[0]?.potential_value}
+					text={'To target : '+((GetApi({url:Api.patients})[0]?.potential_value/GetApi({url:Api.patients})[0]?.total_value)*100).toFixed(2)+'%'}
 					type={'Included'}
 				/>
-				<div>
-					AVG patients per site : {(Getter({url:"http://localhost:5000/api/OpDashboard/patients"})[0]?.potential_value/Getter({url:"http://localhost:5000/api/OpDashboard/sites"})[0]?.potential_value).toFixed(2)}
+				<div style={{fontSize: '1vw'}}>
+					AVG patients per site : {(GetApi({url:Api.patients})[0]?.potential_value/GetApi({url:Api.patients})[0]?.potential_value).toFixed(2)}
 				</div>
-				<BtnExportExcel apiData={FetchPatients()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.patients})}/>
 			</div>
 
-			<div className='block' style={{width: "600px"}}>
+			<div className='block' style={{width: "32.5vw"}}>
 				<div className='title_block'>
 					Site status
 				</div>
 				<VerticalBar data={DataSiteStatus()}/>
-				<BtnExportExcel apiData={FetchSiteStatus()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.siteStatus})}/>
 			</div>
 
-			<div className='block' style={{width: "600px"}}>
+			<div className='block' style={{width: "32.5vw"}}>
 				<div className='title_block'>
 					Patient status
 				</div>
 				<VerticalBar data={DataPatientStatus()}/>
-				<BtnExportExcel apiData={FetchPatientStatus()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.patientStatus})}/>
 			</div>
 
-			<div className='block' style={{width: "84.7%"}}>
+			<div className='block' style={{width: "68.2vw"}}>
 				<div className='title_block'>
 					Curve of inclusion
 				</div>
 				<Liner data={DataCurveOfInclusion()} />
-				<BtnExportExcel apiData={FetchCurveOfInclusion()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.curve})}/>
 			</div>
 
-			<div className='block' style={{width: "640px"}}>
+			<div className='block' style={{width: "33vw"}}>
 				<div className='title_block'>
 					Monitoring
 				</div>
-				<TableSet header={HeadCellsMonitoring} url='http://localhost:5000/api/OpDashboard/monitoring' searchBar='false'/>
-				<BtnExportExcel apiData={FetchMonitoring()}/>
+				<TableSet header={HeadCellsMonitoring} url={Api.monitoring} searchBar='false'/>
+				<BtnExportExcel apiData={GetApi({url:Api.monitoring})}/>
 			</div>
 
-			<div className='block' style={{width: "15%"}}>
+
+			<div className='block' style={{width: "13.8vw"}}>
 				<div className='title_block'>
 					Documents
 				</div>
-				<div>
-					Received : {Getter({url:"http://localhost:5000/api/OpDashboard/documents_conformity"})[0]?.received}
+				<div style={{fontSize: '.8vw'}}>
+					Received : {GetApi({url:Api.documentConformity})[0]?.received}
 					<br/>
-					Default unresolved : {Getter({url:"http://localhost:5000/api/OpDashboard/documents_conformity"})[0]?.default_unresolved}
+					Default unresolved : {GetApi({url:Api.documentConformity})[0]?.default_unresolved}
 				</div>
 				<DoughnutChart  data={DataDocuments()} legend='Conformity' />
-				<BtnExportExcel apiData={FetchDocuments()}/>
+				<BtnExportExcel apiData={GetApi({url:Api.documentConformity})}/>
 			</div>
 
-			<div className='block' style={{width: "15%"}}>
+			<div className='block' style={{width: "15vw"}}>
 				<div className='title_block'>
 						Safety
 					</div>
 					<DoughnutChart data={DataSafety()} legend='AE/SAE' />
-					<BtnExportExcel apiData={FetchSafety()}/>
-					<div>
-						Serious : {((Getter({url:"http://localhost:5000/api/OpDashboard/safety_ae"})[0]?.value2/Getter({url:"http://localhost:5000/api/OpDashboard/safety_ae"})[0]?.ack_not_received)*100).toFixed(1)} %
+					<BtnExportExcel apiData={GetApi({url:Api.safetyAE})}/>
+					<div style={{fontSize: '.8vw'}}>
+						Serious : {((GetApi({url:Api.safetyAE})[0]?.value2/Getter({url:Api.safetyAE})[0]?.ack_not_received)*100).toFixed(1)} %
 						<br/>
-						Ack not received : {Getter({url:"http://localhost:5000/api/OpDashboard/safety_ae"})[0]?.ack_not_received}
+						Ack not received : {GetApi({url:Api.safetyAE})[0]?.ack_not_received}
 					</div>
-					<div style={{fontSize: '.8rem', border: '1px solid black'}}>
+					<div style={{fontSize: '.8vw', border: '1px solid black', marginTop: '1%'}}>
 						<table>
-							<tr>
-			                     <th>           </th>
-			                     <th>Initial</th>
-			                     <th>Follow-up</th>
-							</tr>
-							<tr>
-								<td>AVG SAE per site</td>
-								<td>xxx</td>
-								<td>xxx</td>
-							</tr>
-							<tr>
-								<td>AVG SAE per patient</td>
-								<td>xxx</td>
-								<td>xxx</td>
-							</tr>
+							<thead>
+								<tr>
+									<th></th>
+									<th>Initial</th>
+									<th>Follow-up</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>AVG SAE per site</td>
+									<td>{(GetApi({url:Api.safetyAeTable})[0]?.per_site)?.toFixed(2)}</td>
+									<td>{(GetApi({url:Api.safetyAeTable})[1]?.per_site)?.toFixed(2)}</td>
+								</tr>
+								<tr>
+									<td>AVG SAE per patient</td>
+									<td>{(GetApi({url:Api.safetyAeTable})[0]?.per_patient)?.toFixed(2)}</td>
+									<td>{(GetApi({url:Api.safetyAeTable})[1]?.per_patient)?.toFixed(2)}</td>
+								</tr>
+							</tbody>
+							
 						</table>
 					</div>
 				</div> 

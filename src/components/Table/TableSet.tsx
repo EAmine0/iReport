@@ -12,10 +12,10 @@ import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Skeleton } from '@mui/material';
 import { TextField } from '@mui/material';
 import { withStyles, makeStyles } from '@mui/material/styles';
 import './Table.css'
+import SkeletonField from '../Loading/SkeletonField';
 
 interface Props {
     url: any
@@ -139,14 +139,7 @@ export default function TableSet(props: Props) {
   return (
 
     loading ? (
-      <Box>
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-      </Box>
+      <SkeletonField />
     ) : (
       <Box >
       {search}
@@ -187,10 +180,10 @@ export default function TableSet(props: Props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row:any) => { 
                     return (
-                        <TableRow >
+                        <TableRow>
                             {
                                 columns.map((column:any) => {
-                                  return <TableCell size='small' height={27} align='center'>{row[column]}</TableCell>
+                                  return <TableCell size='small' height={27} align='center' key={row.keyid}>{row[column]}</TableCell>
                                 })
                             }
 
